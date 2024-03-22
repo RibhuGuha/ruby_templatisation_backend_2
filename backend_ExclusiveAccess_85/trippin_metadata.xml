@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="Model">
+            <EntityType HasStream="false" Name="Category">
+                <Key>
+                    <PropertyRef Name="CategoryId"/>
+                </Key>
+                <Property Name="CategoryId" Type="Edm.Int64" isUnique="false"/>
+                <Property Name="Name" Type="Edm.String" isUnique="false"/>
+                <Property Name="Code" Type="Edm.String" isUnique="false"/>
+                <Property Name="Creator" Type="Model.ProductCreator" isUnique="false"/>
+            </EntityType>
+            <EntityType HasStream="false" Name="Product">
+                <Key>
+                    <PropertyRef Name="ProductId"/>
+                </Key>
+                <Property Name="ProductId" Type="Edm.Int64" isUnique="false"/>
+                <Property Name="ProductName" Type="Edm.String" isUnique="false"/>
+                <Property Name="ProductDescription" Type="Edm.String" isUnique="false"/>
+                <Property Name="IconName" Type="Edm.String" isUnique="false"/>
+                <Property Name="Dispatched" Type="Edm.Boolean" isUnique="false"/>
+                <Property Name="CreatedDate" Type="Edm.DateTimeOffset" isUnique="false"/>
+                <Property Name="Creator" Type="Model.ProductCreator" isUnique="false"/>
+                <NavigationProperty Name="P_Category" Type="Model.Category"/>
+                <NavigationProperty Name="ScreenShotBig" Type="Model.Document"/>
+                <NavigationProperty Name="OtherImages" Type="Collection(Model.Document)"/>
+            </EntityType>
+            <EntityType HasStream="true" Name="Document">
+                <Key>
+                    <PropertyRef Name="DocId"/>
+                </Key>
+                <Property Name="DocId" Type="Edm.Int64" isUnique="false"/>
+                <Property Name="FileType" Type="Edm.String" isUnique="false"/>
+                <Property Name="FileName" Type="Edm.String" isUnique="false"/>
+            </EntityType>
+            <EntityContainer Name="Container">
+                <EntitySet Name="Categories" EntityType="Model.Category"/>
+                <EntitySet Name="Products" EntityType="Model.Product">
+                    <NavigationPropertyBinding Path="P_Category" Target="Categories"/>
+                    <NavigationPropertyBinding Path="ScreenShotBig" Target="Documents"/>
+                    <NavigationPropertyBinding Path="OtherImages" Target="Documents"/>
+                </EntitySet>
+                <EntitySet Name="Documents" EntityType="Model.Document"/>
+            </EntityContainer>
+            <EnumType Name="ProductCreator">
+                <Member Name="Replicacia" Value="0"/>
+                <Member Name="Others" Value="1"/>
+            </EnumType>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
